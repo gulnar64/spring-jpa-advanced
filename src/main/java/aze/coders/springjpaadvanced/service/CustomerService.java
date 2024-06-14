@@ -1,20 +1,9 @@
-package aze.coders.springbootcrud.service;
+package aze.coders.springjpaadvanced.service;
 
-import aze.coders.springbootcrud.model.CustomerDto;
-import aze.coders.springbootcrud.model.CustomersDtoResponse;
+import aze.coders.springjpaadvanced.model.CustomerDto;
+
+import java.util.List;
 
 public interface CustomerService {
-    CustomersDtoResponse getAllCustomers();
-
-    CustomerDto getCustomer(Integer id);
-
-    CustomersDtoResponse getCustomerByName(String name);
-
-    void deleteCustomer(Integer id);
-
-    void saveCustomer(CustomerDto customerDto);
-
-    void updateCustomer(Integer id, String name);
-
-    void updateCustomerWithPatch(Integer id, String name);
+    List<CustomerDto> getAllCustomers(String name);
 }

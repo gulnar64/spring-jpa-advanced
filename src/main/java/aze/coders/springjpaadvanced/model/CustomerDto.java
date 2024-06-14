@@ -1,4 +1,4 @@
-package aze.coders.springbootcrud.model;
+package aze.coders.springjpaadvanced.model;
 
 import lombok.Data;
 

@@ -1,5 +1,11 @@
-spring:
-  profiles:
-    include:
-      - db
-      - common
+#branches:
+#  - branchCode: 100
+#    branchName: Yasamal
+#  - branchCode: 1
+#    branchName: Sahil
+#  - branchCode: 10
+#    branchName: Nizami
+branches:
+  100 : Yasamal
+  1: Sahil
+  10: Nizami

@@ -1,11 +1,13 @@
-package aze.coders.springbootcrud.entity;
+package aze.coders.springjpaadvanced.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 @Entity
 @Data
 @Table(name="customers")
+@FieldNameConstants
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
