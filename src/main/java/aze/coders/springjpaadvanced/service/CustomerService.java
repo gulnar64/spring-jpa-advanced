@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CustomerService {
     List<CustomerDto> getAllCustomers(String name);
+    CustomerDto save(CustomerDto customerDto);
 }
