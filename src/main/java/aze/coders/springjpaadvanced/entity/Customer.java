@@ -12,6 +12,7 @@ import java.util.List;
 @Table(name = "customers")
 @FieldNameConstants
 @NoArgsConstructor
+@NamedEntityGraph(name = "customer.accounts", attributeNodes = @NamedAttributeNode("accounts"))
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,20 +24,35 @@ public class Customer {
 
     private String address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Identification identification;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Account> accounts;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Work> works;
 
-    public Customer(String name, String address) {
+    public Customer(String name, String address, List<Work> works) {
         this.name = name;
         this.address = address;
+        this.works = works;
     }
 
-    public Customer(String name, String address, Identification identification, List<Account> accounts) {
+    public Customer(String name, String address, Identification identification, List<Account> accounts, List<Work> works) {
         this.name = name;
         this.address = address;
         this.identification = identification;
         this.accounts = accounts;
+        this.works = works;
+    }
+
+    public Customer(String name, String address, Identification identification) {
+        this.name = name;
+        this.address = address;
+        this.identification = identification;
+    }
+
+    public Customer(String name, String address) {
+        this.name = name;
+        this.address = address;
     }
 }

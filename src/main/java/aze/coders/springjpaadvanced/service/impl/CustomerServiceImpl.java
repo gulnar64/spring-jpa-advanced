@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @SneakyThrows
-   @Transactional
+    @Transactional
     public CustomerDto save(CustomerDto customerDto) {
         // EntityManager entityManager = entityManagerFactory.createEntityManager();
         // EntityTransaction transaction = entityManager.getTransaction();
@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
         System.out.println("customer 1 before save");
         entityManager.persist(customer);
         entityManager.clear();
-         customer = entityManager.getReference(Customer.class, customer.getId());
+        customer = entityManager.getReference(Customer.class, customer.getId());
         customer.setName("dsgvdf");
         entityManager.persist(customer);
 //        Thread.sleep(1000);
@@ -77,6 +77,20 @@ public class CustomerServiceImpl implements CustomerService {
 
         // transaction.commit();
         return customerDto;
+    }
+
+    @Override
+    public void getAllTest() {
+
+        System.out.println("main class getAllTest start");
+        this.getAll();
+        System.out.println("main class getAllTest end");
+
+    }
+
+    @Override
+    public List<CustomerDto> getAll() {
+        return customerRepository.findAll().stream().map(this::convertEntityToDto).toList();
     }
     // List<Customer> customers = customerRepository.findByName(name);
 //        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
