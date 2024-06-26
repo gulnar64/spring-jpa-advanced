@@ -1,5 +1,6 @@
 package aze.coders.springjpaadvanced.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
@@ -19,10 +20,16 @@ public class CustomerAspect {
 //    public void after() {
 //        System.out.println("CustomerAspect.after");
 //    }
-    @Around("execution(public java.util.List<aze.coders.springjpaadvanced.model.CustomerDto> getAll())")
-    public void around(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("execution(public java.util.List<aze.coders.springjpaadvanced.model.*> get*())")
+    public java.util.List<aze.coders.springjpaadvanced.model.CustomerDto>  around(ProceedingJoinPoint joinPoint) throws Throwable {
         System.out.println("CustomerAspect.before");
-        joinPoint.proceed();
+        java.util.List<aze.coders.springjpaadvanced.model.CustomerDto> result = (java.util.List<aze.coders.springjpaadvanced.model.CustomerDto>) joinPoint.proceed();
         System.out.println("CustomerAspect.after");
+        return result;
+    }
+
+    @Before("@annotation(aze.coders.springjpaadvanced.annotation.LogAnnotation)")
+    public void before() {
+        System.out.println("Annotation Aspect.before");
     }
 }

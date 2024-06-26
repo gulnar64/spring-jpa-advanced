@@ -3,6 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/DB
     username: postgres
     password: 12345
+    hikari:
+      maximum-pool-size: 2
+      connection-timeout: 15000
   jpa:
     hibernate:
       ddl-auto: update

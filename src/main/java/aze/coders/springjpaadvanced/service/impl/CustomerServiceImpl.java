@@ -1,10 +1,12 @@
 package aze.coders.springjpaadvanced.service.impl;
 
 
+import aze.coders.springjpaadvanced.annotation.LogAnnotation;
 import aze.coders.springjpaadvanced.entity.Customer;
 import aze.coders.springjpaadvanced.model.CustomerDto;
 import aze.coders.springjpaadvanced.repository.CustomerRepository;
 import aze.coders.springjpaadvanced.service.CustomerService;
+import com.zaxxer.hikari.util.IsolationLevel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -12,12 +14,14 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +33,11 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final EntityManagerFactory entityManagerFactory;
     private final EntityManager entityManager;
+    private final ModelMapper modelMapper;
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @SneakyThrows
     public List<CustomerDto> getAllCustomers(String name) {
         Specification<Customer> customerSpecification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -40,6 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
         List<Customer> customers = customerRepository.findAll(customerSpecification);
+        Thread.sleep(10000);
         return customers.stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 
@@ -81,16 +89,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void getAllTest() {
-
-        System.out.println("main class getAllTest start");
         this.getAll();
-        System.out.println("main class getAllTest end");
 
     }
 
     @Override
+    @LogAnnotation
     public List<CustomerDto> getAll() {
-        return customerRepository.findAll().stream().map(this::convertEntityToDto).toList();
+        return customerRepository.findAll().stream().map(customer -> modelMapper.map(customer, CustomerDto.class)).toList();
     }
     // List<Customer> customers = customerRepository.findByName(name);
 //        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
