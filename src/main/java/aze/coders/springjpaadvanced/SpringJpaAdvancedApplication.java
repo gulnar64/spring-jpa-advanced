@@ -18,6 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @SpringBootApplication
@@ -59,8 +60,15 @@ public class SpringJpaAdvancedApplication implements CommandLineRunner {
 //        Customer customer = new Customer("ASd", "Doe", List.of(work1));
         //CustomerService customerService = new CustomerServiceImplProxy(customerRepository, entityManagerFactory, entityManager);
         // customerService.getAllTest();
-        customerService.getAll().forEach(System.out::println);
-  //      test();
+//        accountRepository.findAll().forEach(acccount ->
+//        {
+//            acccount.setBalance(BigDecimal.valueOf(100.0));
+//            accountRepository.save(acccount);
+//        });
+        Account account = accountRepository.findById(3).get();
+        account.setBalance(account.getBalance().subtract(new BigDecimal("20")));
+        accountRepository.save(account);
+        //      test();
 //        Customer customer1 = new Customer("ASd 8", "Doe");
 //        customerRepository.save(customer1);
 
